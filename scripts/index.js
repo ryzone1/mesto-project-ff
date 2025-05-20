@@ -9,22 +9,24 @@ function createCard (cardData) {
 
     cardElement.querySelector('.card__title').textContent = cardData.name;
     cardElement.querySelector('.card__image').src = cardData.link;
-    removeButton.addEventListener('click', () => deleteCardpls(removeButton));
+    removeButton.addEventListener('click', function() {
+        deleteCard(removeButton);
+    });
     
     return cardElement;
     
 }
 
-function deleteCardpls (element) {
+function deleteCard (element) {
     const removeItem = element.closest('.places__item');
     removeItem.remove()
     
 }
 
 function renderCards(cards, container) {
-    cards.forEach((card) => {
+    cards.forEach(function(card) {
         const cardRendered = createCard(card);
-        container.append(cardRendered);
+        container.appendChild(cardRendered);
     });
 }
 
