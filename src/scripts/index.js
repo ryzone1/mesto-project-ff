@@ -1,4 +1,5 @@
 import '../pages/index.css';
+import initialCards from './cards.js'; 
 
 const placesList = document.querySelector('.places__list');
 const template = document.querySelector('#card-template').content;
@@ -33,10 +34,4 @@ function renderCards(cards, container) {
 renderCards(initialCards, placesList);
 
 
-// @todo: DOM узлы
 
-// @todo: Функция создания карточки
-
-// @todo: Функция удаления карточки
-
-// @todo: Вывести карточки на страницу

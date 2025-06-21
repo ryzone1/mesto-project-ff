@@ -1,0 +1,7 @@
+function openModal () {
+
+};
+
+function closeModal () {
+
+};
