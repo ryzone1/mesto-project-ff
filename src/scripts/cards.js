@@ -25,4 +25,23 @@ const initialCards = [
     }
 ];
 
-export default initialCards;
+function createCard (cardData) {
+  const template = document.querySelector('#card-template').content;
+  const cardElement = template.cloneNode(true);
+  const removeButton = cardElement.querySelector('.card__delete-button');
+
+  cardElement.querySelector('.card__title').textContent = cardData.name;
+  cardElement.querySelector('.card__image').src = cardData.link;
+  removeButton.addEventListener('click', function() {
+      deleteCard(removeButton);
+  });
+  
+  return cardElement;
+}
+
+function deleteCard (element) {
+  const removeItem = element.closest('.places__item');
+  removeItem.remove()
+}
+
+export {initialCards, createCard};
