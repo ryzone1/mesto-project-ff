@@ -15,10 +15,6 @@ const jobInput = formElement.querySelector('.popup__input_type_description');
 const cardInputForm = allPage.querySelector("form[name='new-place']");
 const cardInputName = cardInputForm.querySelector('.popup__input_type_card-name');
 const cardInputSrc = cardInputForm.querySelector('.popup__input_type_url');
-const testim = [{
-    name: 'GOVNO',
-    link: 'https://images.unsplash.com/photo-1542287343796-5bc81a6df440?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-}]
 
 function renderCards(cards, container) {
     cards.forEach(function(card) {
