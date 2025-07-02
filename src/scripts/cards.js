@@ -1,3 +1,5 @@
+import {openModal} from './components/modal.js';
+
 const initialCards = [
     {
       name: "Архыз",
@@ -30,6 +32,7 @@ function createCard (cardData) {
   const cardElement = template.cloneNode(true);
   const removeButton = cardElement.querySelector('.card__delete-button');
   const likeButton = cardElement.querySelector('.card__like-button');
+  const photoImg = cardElement.querySelector('.card__image');
 
   cardElement.querySelector('.card__title').textContent = cardData.name;
   cardElement.querySelector('.card__image').src = cardData.link;
@@ -38,6 +41,9 @@ function createCard (cardData) {
   });
   likeButton.addEventListener('click', function () {
     likeCard(likeButton);
+  })
+  photoImg.addEventListener('click', function () {
+    openModal();
   })
   
   return cardElement;

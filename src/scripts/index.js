@@ -1,6 +1,6 @@
 import '../pages/index.css';
 import {initialCards, createCard} from './cards.js'; 
-import {openModal} from './components/modal.js'; 
+import {openModal, closeModal} from './components/modal.js'; 
 
 const placesList = document.querySelector('.places__list');
 
