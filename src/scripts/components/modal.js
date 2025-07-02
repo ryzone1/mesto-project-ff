@@ -23,4 +23,13 @@ function closeModal (domElement) {
     domElement.classList.remove('popup_is-opened');
 };
 
-export {openModal, closeModal, closeModalByEsc,}
+function openImgModal (src, name) {
+    const popUp = document.querySelector('.popup_type_image');
+    const img = popUp.querySelector('.popup__image');
+    const text = popUp.querySelector('.popup__caption');
+    popUp.classList.add('popup_is-opened');
+    img.src = src;
+    text.textContent = name;
+}
+
+export {openModal, closeModal, closeModalByEsc, openImgModal}

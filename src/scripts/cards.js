@@ -1,4 +1,4 @@
-import {openModal} from './components/modal.js';
+import {openModal, openImgModal} from './components/modal.js';
 
 const initialCards = [
     {
@@ -43,7 +43,7 @@ function createCard (cardData) {
     likeCard(likeButton);
   })
   photoImg.addEventListener('click', function () {
-    openModal();
+    openImgModal(cardData.link, cardData.name);
   })
   
   return cardElement;
