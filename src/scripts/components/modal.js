@@ -14,7 +14,6 @@ function openModal (domElement) {
     }, { once: true })
 };
 
-
 function closeModalByEsc (domElement) {
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
@@ -32,7 +31,7 @@ function openImgModal (src, name) {
     const img = popUp.querySelector('.popup__image');
     const text = popUp.querySelector('.popup__caption');
     const closeButton = popUp.querySelector('.popup__close');
-    popUp.classList.add('popup_is-opened');
+    popUp.classList.add('popup_is-animated', 'popup_is-opened');
     img.src = src;
     text.textContent = name;
     closeButton.addEventListener('click', function () {

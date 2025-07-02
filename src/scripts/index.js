@@ -25,6 +25,13 @@ function renderCards(cards, container) {
 
 renderCards(initialCards, placesList);
 
+function addAnimatedPopUp (page) {
+    let popUpElements = page.querySelectorAll('.popup');
+    popUpElements.forEach(function (elem) {
+        elem.classList.add('popup_is-animated');
+    })
+}
+addAnimatedPopUp(allPage);
 
 editButton.addEventListener('click', function() {
     openModal(popUpEdit);
