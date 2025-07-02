@@ -8,6 +8,10 @@ function openModal (domElement) {
     closeButton.addEventListener('click', function () {
         closeModal(domElement);
     }, { once: true })
+    const saveButton = domElement.querySelector('.popup__button');
+    saveButton.addEventListener('click', function () {
+        closeModal(domElement);
+    }, { once: true })
 };
 
 
@@ -27,9 +31,15 @@ function openImgModal (src, name) {
     const popUp = document.querySelector('.popup_type_image');
     const img = popUp.querySelector('.popup__image');
     const text = popUp.querySelector('.popup__caption');
+    const closeButton = popUp.querySelector('.popup__close');
     popUp.classList.add('popup_is-opened');
     img.src = src;
     text.textContent = name;
+    closeButton.addEventListener('click', function () {
+        closeModal(popUp);
+    })
+    if (popUp.classList.contains('popup_is-opened')) {
+        closeModalByEsc(popUp);}
 }
 
 export {openModal, closeModal, closeModalByEsc, openImgModal}
