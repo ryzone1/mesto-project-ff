@@ -1,4 +1,9 @@
 function openModal (domElement) {
+    domElement.addEventListener('click', function (evt) {
+        if (evt.target === evt.currentTarget) {
+            closeModal(domElement);
+        };
+    }, { once: true });
     if (!domElement.classList.contains('popup_is-opened')) {
         domElement.classList.add('popup_is-opened');};
         if (domElement.classList.contains('popup_is-opened')) {
@@ -6,10 +11,6 @@ function openModal (domElement) {
         };
     const closeButton = domElement.querySelector('.popup__close');
     closeButton.addEventListener('click', function () {
-        closeModal(domElement);
-    }, { once: true })
-    const saveButton = domElement.querySelector('.popup__button');
-    saveButton.addEventListener('click', function () {
         closeModal(domElement);
     }, { once: true })
 };
@@ -38,7 +39,13 @@ function openImgModal (src, name) {
         closeModal(popUp);
     })
     if (popUp.classList.contains('popup_is-opened')) {
-        closeModalByEsc(popUp);}
-}
+        closeModalByEsc(popUp);
+    };
+    popUp.addEventListener('click', function (evt) {
+        if (evt.target === evt.currentTarget) {
+            closeModal(popUp);
+        };
+    })
+};
 
-export {openModal, closeModal, closeModalByEsc, openImgModal}
+export {openModal, closeModal, openImgModal}

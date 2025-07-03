@@ -30,7 +30,7 @@ function addAnimatedPopUp (page) {
     popUpElements.forEach(function (elem) {
         elem.classList.add('popup_is-animated');
     })
-}
+};
 addAnimatedPopUp(allPage);
 
 editButton.addEventListener('click', function() {
@@ -50,7 +50,6 @@ function getTitleAndDescription (page) {
     NamePopUp.value = name.textContent;
     descriptionPopUp.value = description.textContent;
 }
-
 getTitleAndDescription(allPage);
 
 
@@ -63,6 +62,7 @@ function handleFormSubmit(evt) {
     const description = allPage.querySelector('.profile__description');
     name.textContent = nameValue;
     description.textContent = jobValue;
+    closeModal(popUpEdit);
 }
 
 formElement.addEventListener('submit', handleFormSubmit);
@@ -77,7 +77,17 @@ function manualAddCard (evt) {
     dataAdd.name = cardInputName.value;
     dataAdd.link = cardInputSrc.value;
     dataStorage.push(dataAdd);
-    renderCards(dataStorage, placesList);
+    renderManualCards(dataStorage, placesList);
+    closeModal(popUpNewCard);
+    cardInputName.value = '';
+    cardInputSrc.value = '';
+}
+
+function renderManualCards(cards, container) {
+    cards.forEach(function(card) {
+    const cardRendered = createCard(card);
+    container.insertBefore(cardRendered, container.firstChild);
+    });
 }
 
 cardInputForm.addEventListener('submit', manualAddCard);
