@@ -1,5 +1,3 @@
-import {openImgModal} from "../index";
-
 function createCard (cardData, openImgHandler) {
     const template = document.querySelector('#card-template').content;
     const cardElement = template.cloneNode(true);
