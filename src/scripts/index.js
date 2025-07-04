@@ -19,7 +19,7 @@ const cardInputSrc = cardInputForm.querySelector('.popup__input_type_url');
 
 function renderCards(cards, container) {
     cards.forEach(function(card) {
-        const cardRendered = createCard(card);
+        const cardRendered = createCard(card, openImgModal);
         container.appendChild(cardRendered);
     });
 };
@@ -34,7 +34,6 @@ function openImgModal (src, name) {
     img.src = src;
     img.alt = 'пока не знаю чем заполнять';
     text.textContent = name;
-    return 
 };
 
 function addAnimatedPopUp (page) {
@@ -77,23 +76,21 @@ formEditProfile.addEventListener('submit', submitEditProfileForm);
 
 function manualAddCard (evt) {
     evt.preventDefault();
-    const dataStorage = [];
     const dataAdd = {
         name:  '',
         link: ''
     };
     dataAdd.name = cardInputName.value;
     dataAdd.link = cardInputSrc.value;
-    dataStorage.push(dataAdd);
-    renderManualCards(dataStorage, placesList);
+    renderManualCards([dataAdd], placesList);
     closeModal(popUpNewCard);
-    cardInputName.value = '';
-    cardInputSrc.value = '';
+    cardInputForm.reset();
+    
 };
 
 function renderManualCards(cards, container) {
     cards.forEach(function(card) {
-    const cardRendered = createCard(card);
+    const cardRendered = createCard(card, openImgModal);
     container.insertBefore(cardRendered, container.firstChild);
     });
 };

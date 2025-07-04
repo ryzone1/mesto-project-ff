@@ -1,6 +1,6 @@
 import {openImgModal} from "../index";
 
-function createCard (cardData) {
+function createCard (cardData, openImgHandler) {
     const template = document.querySelector('#card-template').content;
     const cardElement = template.cloneNode(true);
     const removeButton = cardElement.querySelector('.card__delete-button');
@@ -16,7 +16,7 @@ function createCard (cardData) {
     likeCard(likeButton);
     });
     photoImg.addEventListener('click', function () {
-    openImgModal(cardData.link, cardData.name);
+        openImgHandler (cardData.link, cardData.name);
     });
     return cardElement;
 };
@@ -28,7 +28,7 @@ function deleteCard (element) {
 
 function likeCard (element) {
     const likeElement = element.closest('.card__like-button');
-    likeElement.className += ' card__like-button_is-active';
+    likeElement.classList.toggle('card__like-button_is-active');
 };
 
 export  {createCard};
