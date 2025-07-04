@@ -1,4 +1,4 @@
-import {openImgModal} from './components/modal.js';
+import { openImgModal } from "./index";
 
 const initialCards = [
     {
