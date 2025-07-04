@@ -96,5 +96,3 @@ function renderManualCards(cards, container) {
 };
 
 cardInputForm.addEventListener('submit', manualAddCard);
-
-export {openImgModal};
