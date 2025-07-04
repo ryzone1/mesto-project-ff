@@ -24,4 +24,4 @@ function closeModal (domElement) {
     domElement.classList.remove('popup_is-opened');
 };
 
-export {openModal, closeModal, setCloseByEscListener}
+export {openModal, closeModal}
