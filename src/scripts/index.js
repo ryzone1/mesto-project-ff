@@ -1,6 +1,7 @@
 import '../pages/index.css';
-import {initialCards, createCard} from './cards.js'; 
-import {openModal, closeModal, setCloseByEscListener} from './components/modal.js'; 
+import {initialCards} from './cards.js'; 
+import {createCard} from './components/card.js';
+import {openModal, closeModal} from './components/modal.js'; 
 
 const placesList = document.querySelector('.places__list');
 
@@ -21,7 +22,7 @@ function renderCards(cards, container) {
         const cardRendered = createCard(card);
         container.appendChild(cardRendered);
     });
-}
+};
 
 renderCards(initialCards, placesList);
 
@@ -29,21 +30,11 @@ function openImgModal (src, name) {
     const popUp = document.querySelector('.popup_type_image');
     const img = popUp.querySelector('.popup__image');
     const text = popUp.querySelector('.popup__caption');
-    const closeButton = popUp.querySelector('.popup__close');
-    popUp.classList.add('popup_is-animated', 'popup_is-opened');
+    openModal(popUp);
     img.src = src;
+    img.alt = 'пока не знаю чем заполнять';
     text.textContent = name;
-    closeButton.addEventListener('click', function () {
-        closeModal(popUp);
-    })
-    if (popUp.classList.contains('popup_is-opened')) {
-        setCloseByEscListener(popUp);
-    };
-    popUp.addEventListener('click', function (evt) {
-        if (evt.target === evt.currentTarget) {
-            closeModal(popUp);
-        };
-    })
+    return 
 };
 
 function addAnimatedPopUp (page) {
@@ -69,10 +60,7 @@ function fillInputFields (page) {
     const description = page.querySelector('.profile__description');
     nameInput.value = name.textContent;
     jobInput.value = description.textContent;
-}
-
-
-
+};
 
 function submitEditProfileForm(evt) {
     evt.preventDefault();
@@ -83,7 +71,7 @@ function submitEditProfileForm(evt) {
     name.textContent = nameValue;
     description.textContent = jobValue;
     closeModal(popUpEdit);
-}
+};
 
 formEditProfile.addEventListener('submit', submitEditProfileForm);
 
@@ -101,14 +89,14 @@ function manualAddCard (evt) {
     closeModal(popUpNewCard);
     cardInputName.value = '';
     cardInputSrc.value = '';
-}
+};
 
 function renderManualCards(cards, container) {
     cards.forEach(function(card) {
     const cardRendered = createCard(card);
     container.insertBefore(cardRendered, container.firstChild);
     });
-}
+};
 
 cardInputForm.addEventListener('submit', manualAddCard);
 
