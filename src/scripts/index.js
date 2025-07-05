@@ -32,7 +32,7 @@ function openImgModal (src, name) {
     const text = popUp.querySelector('.popup__caption');
     openModal(popUp);
     img.src = src;
-    img.alt = 'пока не знаю чем заполнять';
+    img.alt = name;
     text.textContent = name;
 };
 
