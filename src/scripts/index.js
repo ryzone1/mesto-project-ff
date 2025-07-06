@@ -2,6 +2,7 @@ import '../pages/index.css';
 import {initialCards} from './cards.js'; 
 import {createCard} from './components/card.js';
 import {openModal, closeModal} from './components/modal.js'; 
+import {enableValidation} from './components/validation.js'
 
 const placesList = document.querySelector('.places__list');
 
@@ -96,3 +97,5 @@ function renderManualCards(cards, container) {
 };
 
 cardInputForm.addEventListener('submit', manualAddCard);
+
+enableValidation()
