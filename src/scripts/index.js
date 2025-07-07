@@ -2,7 +2,7 @@ import '../pages/index.css';
 import {initialCards} from './cards.js'; 
 import {createCard} from './components/card.js';
 import {openModal, closeModal} from './components/modal.js'; 
-import {enableValidation} from './components/validation.js'
+import {enableValidation, clearValidation} from './components/validation.js'
 
 const placesList = document.querySelector('.places__list');
 
@@ -17,6 +17,15 @@ const jobInput = formEditProfile.querySelector('.popup__input_type_description')
 const cardInputForm = allPage.querySelector("form[name='new-place']");
 const cardInputName = cardInputForm.querySelector('.popup__input_type_card-name');
 const cardInputSrc = cardInputForm.querySelector('.popup__input_type_url');
+
+const ValidationConfig = {
+formSelector: '.popup__form',
+inputSelector: '.popup__input',
+submitButtonSelector: '.popup__button',
+inactiveButtonClass: 'popup__button_inactive',
+inputErrorClass: 'popup__input_error',
+errorClass: 'popup__input_text_error_active'
+};
 
 function renderCards(cards, container) {
     cards.forEach(function(card) {
@@ -43,9 +52,12 @@ function addAnimatedPopUp (page) {
         elem.classList.add('popup_is-animated');
     })
 };
-addAnimatedPopUp(allPage);
+    fillInputFields(allPage); //временно так, пока не получу ответ от куратора
 
-editButton.addEventListener('click', function() {
+    addAnimatedPopUp(allPage);
+
+    editButton.addEventListener('click', function() {
+    clearValidation(formEditProfile, ValidationConfig);
     fillInputFields(allPage);
     openModal(popUpEdit);
 });
@@ -86,7 +98,7 @@ function manualAddCard (evt) {
     renderManualCards([dataAdd], placesList);
     closeModal(popUpNewCard);
     cardInputForm.reset();
-    
+    clearValidation(cardInputForm, ValidationConfig);
 };
 
 function renderManualCards(cards, container) {
@@ -98,4 +110,4 @@ function renderManualCards(cards, container) {
 
 cardInputForm.addEventListener('submit', manualAddCard);
 
-enableValidation()
+enableValidation(ValidationConfig)
