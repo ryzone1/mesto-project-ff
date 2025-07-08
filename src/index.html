@@ -93,13 +93,19 @@
 </div>
 
 <template id="card-template">
-  <li class="places__item card">
+  <li 
+  class="places__item card"
+  id=""
+  >
     <img class="card__image" src="" alt="" />
     <button type="button" class="card__delete-button"></button>
     <div class="card__description">
       <h2 class="card__title">
       </h2>
+      <div class="card__like_container">
       <button type="button" class="card__like-button"></button>
+      <span class="card__like_namber"></span>
+      </div>
     </div>
   </li>
 </template>

@@ -1,5 +1,6 @@
 const cohortId = 'wff-cohort-42';
 const token = '97973811-dc29-406f-aaec-08ad8ee54de0';
+export const userId = '7e7d247302222c81991c19dd';
 
 const config = {
 baseUrl: `https://nomoreparties.co/v1/${cohortId}`,
@@ -8,6 +9,13 @@ headers: {
     'Content-Type': 'application/json'
 }
 };
+
+export const deleteCardFromServer = (cardId) => {
+    fetch(`${config.baseUrl}/cards/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+})
+}
 
 export const GetUserDataFromServer = (domElements) => {
 return fetch(`${config.baseUrl}/users/me`, {
@@ -26,7 +34,7 @@ return fetch(`${config.baseUrl}/users/me`, {
     } )
 };
 
-export const getCardDataFromServer = (container, createCard, openImgModal) => {
+export const getCardDataFromServer = (container, createCard, openImgModal, userId, deleteCardFromServer) => {
     return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers
 })
@@ -38,7 +46,7 @@ export const getCardDataFromServer = (container, createCard, openImgModal) => {
     })
     .then((res) => {
         res.forEach(card => {
-            const cardRendered = createCard(card, openImgModal);
+            const cardRendered = createCard(card, openImgModal, userId, deleteCardFromServer);
             container.appendChild(cardRendered);
         });
     })

@@ -2,7 +2,7 @@ import '../pages/index.css';
 import {createCard} from './components/card.js';
 import {openModal, closeModal} from './components/modal.js'; 
 import {enableValidation, clearValidation} from './components/validation.js'
-import {GetUserDataFromServer, getCardDataFromServer, editUserProfile, addCardOnServer} from './components/api.js';
+import {GetUserDataFromServer, getCardDataFromServer, editUserProfile, addCardOnServer, userId, deleteCardFromServer} from './components/api.js';
 
 const placesList = document.querySelector('.places__list');
 
@@ -40,7 +40,7 @@ errorClass: 'popup__input_text_error_active'
 };
 
 GetUserDataFromServer(userDataConfig);
-getCardDataFromServer(placesList, createCard, openImgModal);
+getCardDataFromServer(placesList, createCard, openImgModal, userId, deleteCardFromServer);
 
 function openImgModal (src, name) {
     const popUp = document.querySelector('.popup_type_image');
