@@ -42,6 +42,21 @@ export const getCardDataFromServer = (container, createCard, openImgModal) => {
             container.appendChild(cardRendered);
         });
     })
+};
+
+export const editUserProfile = (name, about, domElements) => {
+    fetch(`${config.baseUrl}//users/me`, {
+    method: 'PATCH',
+        headers: config.headers,
+    body: JSON.stringify({
+        name: name,
+        about: about
+})
+})
+.then(res => res.json())
+.then((res) => {
+        domElements.user_Name.textContent = res.name;
+        domElements.user_About.textContent = res.about;
+});
+
 }
-
-
