@@ -3,6 +3,7 @@ import {initialCards} from './cards.js';
 import {createCard} from './components/card.js';
 import {openModal, closeModal} from './components/modal.js'; 
 import {enableValidation, clearValidation} from './components/validation.js'
+import {GetUserDataFromServer} from './components/api.js';
 
 const placesList = document.querySelector('.places__list');
 
@@ -18,6 +19,18 @@ const cardInputForm = allPage.querySelector("form[name='new-place']");
 const cardInputName = cardInputForm.querySelector('.popup__input_type_card-name');
 const cardInputSrc = cardInputForm.querySelector('.popup__input_type_url');
 
+
+const userDataConfig = {
+    user_Name: allPage.querySelector('.profile__title'),
+    user_About: allPage.querySelector('.profile__description'),
+    user_Avatar: allPage.querySelector('.profile__image'),
+};
+
+const inputConfig = {
+    profileNameInput: allPage.querySelector('.popup__input_type_name'),
+    profileDescriptionInput: allPage.querySelector('.popup__input_type_description'),
+};
+
 const ValidationConfig = {
 formSelector: '.popup__form',
 inputSelector: '.popup__input',
@@ -26,6 +39,9 @@ inactiveButtonClass: 'popup__button_inactive',
 inputErrorClass: 'popup__input_error',
 errorClass: 'popup__input_text_error_active'
 };
+
+GetUserDataFromServer(userDataConfig);
+
 
 function renderCards(cards, container) {
     cards.forEach(function(card) {
@@ -52,7 +68,6 @@ function addAnimatedPopUp (page) {
         elem.classList.add('popup_is-animated');
     })
 };
-    fillInputFields(allPage); //временно так, пока не получу ответ от куратора
 
     addAnimatedPopUp(allPage);
 
@@ -76,10 +91,10 @@ function fillInputFields (page) {
 
 function submitEditProfileForm(evt) {
     evt.preventDefault();
-    const nameValue = nameInput.value;
-    const jobValue = jobInput.value;
-    const name = allPage.querySelector('.profile__title');
-    const description = allPage.querySelector('.profile__description');
+    const nameValue = inputConfig.profileNameInput.value;
+    const jobValue = inputConfig.profileDescriptionInput.value;
+    const name = userDataConfig.user_Name;
+    const description = userDataConfig.user_About;
     name.textContent = nameValue;
     description.textContent = jobValue;
     closeModal(popUpEdit);
@@ -110,4 +125,4 @@ function renderManualCards(cards, container) {
 
 cardInputForm.addEventListener('submit', manualAddCard);
 
-enableValidation(ValidationConfig)
+enableValidation(ValidationConfig);
