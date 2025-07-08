@@ -26,4 +26,22 @@ return fetch(`${config.baseUrl}/users/me`, {
     } )
 };
 
+export const getCardDataFromServer = (container, createCard, openImgModal) => {
+    return fetch(`${config.baseUrl}/cards`, {
+    headers: config.headers
+})
+    .then(res => {
+    if (res.ok) {
+        return res.json();
+    }
+    Promise.reject(res.status);
+    })
+    .then((res) => {
+        res.forEach(card => {
+            const cardRendered = createCard(card, openImgModal);
+            container.appendChild(cardRendered);
+        });
+    })
+}
+
 

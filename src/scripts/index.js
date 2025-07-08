@@ -3,7 +3,7 @@ import {initialCards} from './cards.js';
 import {createCard} from './components/card.js';
 import {openModal, closeModal} from './components/modal.js'; 
 import {enableValidation, clearValidation} from './components/validation.js'
-import {GetUserDataFromServer} from './components/api.js';
+import {GetUserDataFromServer, getCardDataFromServer} from './components/api.js';
 
 const placesList = document.querySelector('.places__list');
 
@@ -41,16 +41,7 @@ errorClass: 'popup__input_text_error_active'
 };
 
 GetUserDataFromServer(userDataConfig);
-
-
-function renderCards(cards, container) {
-    cards.forEach(function(card) {
-        const cardRendered = createCard(card, openImgModal);
-        container.appendChild(cardRendered);
-    });
-};
-
-renderCards(initialCards, placesList);
+getCardDataFromServer(placesList, createCard, openImgModal);
 
 function openImgModal (src, name) {
     const popUp = document.querySelector('.popup_type_image');
