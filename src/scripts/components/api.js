@@ -51,12 +51,22 @@ export const editUserProfile = (name, about, domElements) => {
     body: JSON.stringify({
         name: name,
         about: about
-})
-})
-.then(res => res.json())
-.then((res) => {
+})})
+    .then(res => res.json())
+    .then((res) => {
         domElements.user_Name.textContent = res.name;
         domElements.user_About.textContent = res.about;
 });
+};
 
+export const addCardOnServer = (cardName, cardLink) => {
+    console.log(cardName);
+    console.log(cardLink);
+    fetch(`${config.baseUrl}/cards`, {
+    method: 'POST',
+    headers: config.headers,
+    body: JSON.stringify({
+        name: cardName,
+        link: cardLink
+    })})
 }

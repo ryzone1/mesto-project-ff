@@ -1,9 +1,8 @@
 import '../pages/index.css';
-import {initialCards} from './cards.js'; 
 import {createCard} from './components/card.js';
 import {openModal, closeModal} from './components/modal.js'; 
 import {enableValidation, clearValidation} from './components/validation.js'
-import {GetUserDataFromServer, getCardDataFromServer, editUserProfile} from './components/api.js';
+import {GetUserDataFromServer, getCardDataFromServer, editUserProfile, addCardOnServer} from './components/api.js';
 
 const placesList = document.querySelector('.places__list');
 
@@ -92,23 +91,12 @@ formEditProfile.addEventListener('submit', submitEditProfileForm);
 
 function manualAddCard (evt) {
     evt.preventDefault();
-    const dataAdd = {
-        name:  '',
-        link: ''
-    };
-    dataAdd.name = cardInputName.value;
-    dataAdd.link = cardInputSrc.value;
-    renderManualCards([dataAdd], placesList);
+    const CardName = cardInputName.value;
+    const CardLink = cardInputSrc.value;
+    addCardOnServer(CardName, CardLink);
     closeModal(popUpNewCard);
     cardInputForm.reset();
     clearValidation(cardInputForm, ValidationConfig);
-};
-
-function renderManualCards(cards, container) {
-    cards.forEach(function(card) {
-    const cardRendered = createCard(card, openImgModal);
-    container.insertBefore(cardRendered, container.firstChild);
-    });
 };
 
 cardInputForm.addEventListener('submit', manualAddCard);
