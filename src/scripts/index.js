@@ -2,7 +2,7 @@ import '../pages/index.css';
 import {createCard} from './components/card.js';
 import {openModal, closeModal} from './components/modal.js'; 
 import {enableValidation, clearValidation} from './components/validation.js'
-import {GetUserDataFromServer, getCardDataFromServer, editUserProfile, addCardOnServer, userId, deleteCardFromServer} from './components/api.js';
+import {GetUserDataFromServer, getCardDataFromServer, editUserProfile, addCardOnServer, userId, deleteCardFromServer, likeToggleIntegratedWithServer, submitUserAvatar} from './components/api.js';
 
 const placesList = document.querySelector('.places__list');
 
@@ -12,12 +12,19 @@ const popUpEdit = allPage.querySelector('.popup_type_edit');
 const addButton = allPage.querySelector('.profile__add-button');
 const popUpNewCard = allPage.querySelector('.popup_type_new-card');
 const formEditProfile = allPage.querySelector("form[name='edit-profile']");
+const formEditAvatar = allPage.querySelector("form[name='edit-avatar']")
 const nameInput = formEditProfile.querySelector('.popup__input_type_name');
 const jobInput = formEditProfile.querySelector('.popup__input_type_description');
+const avatarInput = formEditAvatar.querySelector('.popup__input_type_avatar');
 const cardInputForm = allPage.querySelector("form[name='new-place']");
 const cardInputName = cardInputForm.querySelector('.popup__input_type_card-name');
 const cardInputSrc = cardInputForm.querySelector('.popup__input_type_url');
+const avatarEditButton = allPage.querySelector('.avatar_edit');
+const avatarEditPopUp = allPage.querySelector('.popup_type_edit_avatar');
 
+avatarEditButton.addEventListener('click', function() {
+    openModal(avatarEditPopUp); 
+});
 
 const userDataConfig = {
     user_Name: allPage.querySelector('.profile__title'),
@@ -39,8 +46,10 @@ inputErrorClass: 'popup__input_error',
 errorClass: 'popup__input_text_error_active'
 };
 
+
+
 GetUserDataFromServer(userDataConfig);
-getCardDataFromServer(placesList, createCard, openImgModal, userId, deleteCardFromServer);
+getCardDataFromServer(placesList, createCard, openImgModal, userId, deleteCardFromServer, likeToggleIntegratedWithServer);
 
 function openImgModal (src, name) {
     const popUp = document.querySelector('.popup_type_image');
@@ -71,6 +80,13 @@ addButton.addEventListener('click', function() {
     openModal(popUpNewCard); 
 });
 
+formEditAvatar.addEventListener('submit', submitAvatar)
+
+function submitAvatar (evt) {
+    evt.preventDefault();
+    submitUserAvatar(avatarInput, allPage);
+    closeModal(avatarEditPopUp);
+}
 
 function fillInputFields (page) {
     const name = page.querySelector('.profile__title');

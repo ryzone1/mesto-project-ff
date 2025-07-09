@@ -46,7 +46,7 @@ export const getCardDataFromServer = (container, createCard, openImgModal, userI
     })
     .then((res) => {
         res.forEach(card => {
-            const cardRendered = createCard(card, openImgModal, userId, deleteCardFromServer);
+            const cardRendered = createCard(card, openImgModal, userId, deleteCardFromServer, likeToggleIntegratedWithServer);
             container.appendChild(cardRendered);
         });
     })
@@ -68,8 +68,6 @@ export const editUserProfile = (name, about, domElements) => {
 };
 
 export const addCardOnServer = (cardName, cardLink) => {
-    console.log(cardName);
-    console.log(cardLink);
     fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
@@ -77,4 +75,42 @@ export const addCardOnServer = (cardName, cardLink) => {
         name: cardName,
         link: cardLink
     })})
+};
+
+export const likeToggleIntegratedWithServer = (cardId) => {
+    const likeButton = cardId.querySelector('.card__like-button');
+    const likeNumber = cardId.querySelector('.card__like_namber');
+
+    if (!likeButton.classList.contains('card__like-button_is-active')) {
+            fetch(`${config.baseUrl}/cards/likes/${cardId.id}`, {
+    method: 'PUT',
+    headers: config.headers})
+    .then(res => res.json())
+    .then((res) => {
+        likeNumber.textContent = res.likes.length;
+    })
+    } 
+    else {
+    fetch(`${config.baseUrl}/cards/likes/${cardId.id}`, {
+    method: 'DELETE',
+    headers: config.headers})
+    .then(res => res.json())
+    .then((res) => {
+        likeNumber.textContent = res.likes.length;
+    })
+    };
+};
+
+export const submitUserAvatar = (src, page) => {
+    const avatar = page.querySelector('.profile__image');
+    fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+        headers: config.headers,
+    body: JSON.stringify({
+        avatar: src.value
+})})
+    .then(res => res.json())
+    .then((res) => {
+        avatar.style.backgroundImage =`url(${src.value})`
+});
 }
