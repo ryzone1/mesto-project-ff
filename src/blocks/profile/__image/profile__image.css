@@ -7,10 +7,16 @@
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .avatar_edit {
-  cursor: pointer;
+  background: transparent url('../../../images/EditAvatar.svg') 50px no-repeat;
+}
+
+.profile__image:hover {
+  opacity: 20%;
 }
 
 @media screen and (max-width: 740px) {
