@@ -46,8 +46,6 @@ inputErrorClass: 'popup__input_error',
 errorClass: 'popup__input_text_error_active'
 };
 
-
-
 GetUserDataFromServer(userDataConfig);
 getCardDataFromServer(placesList, createCard, openImgModal, userId, deleteCardFromServer, likeToggleIntegratedWithServer);
 
@@ -68,6 +66,11 @@ function addAnimatedPopUp (page) {
     })
 };
 
+function savingProgressCaption () {
+    const button = allPage.querySelector('.popup__button');
+    button.textContent = 'Сохранение...'
+}
+
     addAnimatedPopUp(allPage);
 
     editButton.addEventListener('click', function() {
@@ -84,6 +87,7 @@ formEditAvatar.addEventListener('submit', submitAvatar)
 
 function submitAvatar (evt) {
     evt.preventDefault();
+    savingProgressCaption();
     submitUserAvatar(avatarInput, allPage);
     closeModal(avatarEditPopUp);
 }
@@ -99,6 +103,7 @@ function submitEditProfileForm(evt) {
     evt.preventDefault();
     const nameValue = inputConfig.profileNameInput.value;
     const jobValue = inputConfig.profileDescriptionInput.value;
+    savingProgressCaption()
     editUserProfile(nameValue, jobValue, userDataConfig);
     closeModal(popUpEdit);
 };
@@ -109,6 +114,7 @@ function manualAddCard (evt) {
     evt.preventDefault();
     const CardName = cardInputName.value;
     const CardLink = cardInputSrc.value;
+    savingProgressCaption()
     addCardOnServer(CardName, CardLink);
     closeModal(popUpNewCard);
     cardInputForm.reset();
