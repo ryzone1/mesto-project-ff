@@ -15,7 +15,7 @@ export const deleteCardFromServer = (cardId) => {
     method: 'DELETE',
     headers: config.headers
 })
-}
+};
 
 export const GetUserDataFromServer = (domElements) => {
 return fetch(`${config.baseUrl}/users/me`, {
@@ -32,6 +32,9 @@ return fetch(`${config.baseUrl}/users/me`, {
         domElements.user_About.textContent = res.about;
         domElements.user_Avatar.style.backgroundImage = `url(${res.avatar})`;
     } )
+    .catch((err) => {
+    console.log(err);
+})
 };
 
 export const getCardDataFromServer = (container, createCard, openImgModal, userId, deleteCardFromServer) => {
@@ -50,6 +53,9 @@ export const getCardDataFromServer = (container, createCard, openImgModal, userI
             container.appendChild(cardRendered);
         });
     })
+        .catch((err) => {
+    console.log(err);
+})
 };
 
 export const editUserProfile = (name, about, domElements) => {
