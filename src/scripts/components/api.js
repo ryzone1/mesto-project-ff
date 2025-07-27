@@ -82,16 +82,12 @@ export const dislikeServerRequest = (cardId) => {
     .then(getResponseData)
 };
 
-export const submitUserAvatar = (src, page) => {
-    const avatar = page.querySelector('.profile__image');
-    fetch(`${config.baseUrl}/users/me/avatar`, {
+export const updateUserAvatar = (src) => {
+    return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
         headers: config.headers,
     body: JSON.stringify({
         avatar: src.value
 })})
-    .then(res => res.json())
-    .then((res) => {
-        avatar.style.backgroundImage =`url(${src.value})`
-});
-}
+    .then(getResponseData)
+};

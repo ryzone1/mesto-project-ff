@@ -14,7 +14,6 @@ function createCard (cardData, openImgHandler, userId, deleteFromServerCallback,
         removeButton.classList.add('card__delete-button_active');
     };
 
-
     if (currentUserLiked(cardData.likes, userId)) {
         likeButton.classList.add('card__like-button_is-active');
     };
@@ -36,9 +35,8 @@ function deleteCard (element, deleteFromServerCallback) {
     deleteFromServerCallback(removeItem.id)
     .catch(err => console.log(`Ошибка: ${err}`))
         .finally(() => {
-removeItem.remove();
+        removeItem.remove();
 }); 
-    
 };
 
 function likeCard (element, dislike, like) {

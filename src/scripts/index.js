@@ -2,7 +2,7 @@ import '../pages/index.css';
 import {createCard} from './components/card.js';
 import {openModal, closeModal} from './components/modal.js'; 
 import {enableValidation, clearValidation} from './components/validation.js'
-import {getUserDataFromServer, getCardDataFromServer, editUserProfile, addCardOnServer, userId, deleteCardFromServer, submitUserAvatar, likeServerRequest, dislikeServerRequest} from './components/api.js';
+import {getUserDataFromServer, getCardDataFromServer, editUserProfile, addCardOnServer, userId, deleteCardFromServer, updateUserAvatar, likeServerRequest, dislikeServerRequest} from './components/api.js';
 
 const placesList = document.querySelector('.places__list');
 
@@ -98,8 +98,15 @@ formEditAvatar.addEventListener('submit', submitAvatar)
 function submitAvatar (evt) {
     evt.preventDefault();
     savingProgressCaption();
-    submitUserAvatar(avatarInput, allPage);
-    closeModal(avatarEditPopUp);
+    updateUserAvatar(avatarInput)
+    .then((data) => {
+        userDataConfig.user_Avatar.style.backgroundImage = `url(${data.value})`
+    })
+    .catch(err => console.log(`Ошибка: ${err}`))
+    .finally(() => {
+        closeModal(avatarEditPopUp);
+}); 
+    
 }
 
 function fillInputFields (page) {
