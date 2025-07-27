@@ -2,8 +2,7 @@ import '../pages/index.css';
 import {createCard} from './components/card.js';
 import {openModal, closeModal} from './components/modal.js'; 
 import {enableValidation, clearValidation} from './components/validation.js'
-import {getUserDataFromServer, getCardDataFromServer, editUserProfile, addCardOnServer, userId, deleteCardFromServer, likeToggleIntegratedWithServer, submitUserAvatar} from './components/api.js';
-import { data } from 'autoprefixer';
+import {getUserDataFromServer, getCardDataFromServer, editUserProfile, addCardOnServer, userId, deleteCardFromServer, submitUserAvatar, likeServerRequest, dislikeServerRequest} from './components/api.js';
 
 const placesList = document.querySelector('.places__list');
 
@@ -58,8 +57,7 @@ const renderProfileData = () => {
 };
 renderProfileData();
 
-
-getCardDataFromServer(placesList, createCard, openImgModal, userId, deleteCardFromServer, likeToggleIntegratedWithServer);
+getCardDataFromServer(placesList, createCard, openImgModal, userId, deleteCardFromServer, dislikeServerRequest, likeServerRequest);
 
 function openImgModal (src, name) {
     const popUp = document.querySelector('.popup_type_image');
@@ -130,7 +128,7 @@ function manualAddCard (evt) {
     savingProgressCaption();
     addCardOnServer(cardInputName.value, cardInputSrc.value)
     .then ((data) => {
-        placesList.prepend(createCard(data, openImgModal, userId, deleteCardFromServer, likeToggleIntegratedWithServer))
+        placesList.prepend(createCard(data, openImgModal, userId, deleteCardFromServer, dislikeServerRequest, likeServerRequest))
     })
     .catch(err => console.log(`Ошибка: ${err}`))
     .finally(() => {

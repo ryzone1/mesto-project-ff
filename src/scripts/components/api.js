@@ -18,7 +18,7 @@ function getResponseData (res) {
 }
 
 export const deleteCardFromServer = (cardId) => {
-    fetch(`${config.baseUrl}/cards/${cardId}`, {
+    return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
 })
@@ -32,14 +32,14 @@ return fetch(`${config.baseUrl}/users/me`, {
     .then(getResponseData)
 };
 
-export const getCardDataFromServer = (container, createCard, openImgModal, userId, deleteCardFromServer) => {
+export const getCardDataFromServer = (container, createCard, openImgModal, userId, deleteCardFromServer, dislikeCallback, likeCallback) => {
     return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers
 })
     .then(getResponseData)
     .then((res) => {
         res.forEach(card => {
-            const cardRendered = createCard(card, openImgModal, userId, deleteCardFromServer, likeToggleIntegratedWithServer);
+            const cardRendered = createCard(card, openImgModal, userId, deleteCardFromServer, dislikeCallback, likeCallback);
             container.appendChild(cardRendered);
         });
     })
@@ -67,28 +67,19 @@ export const addCardOnServer = (cardName, cardLink) => {
     .then(getResponseData)
 };
 
-export const likeToggleIntegratedWithServer = (cardId) => {
-    const likeButton = cardId.querySelector('.card__like-button');
-    const likeNumber = cardId.querySelector('.card__like_namber');
-
-    if (!likeButton.classList.contains('card__like-button_is-active')) {
-            fetch(`${config.baseUrl}/cards/likes/${cardId.id}`, {
+export const likeServerRequest = (cardId) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'PUT',
     headers: config.headers})
-    .then(res => res.json())
-    .then((res) => {
-        likeNumber.textContent = res.likes.length;
-    })
-    } 
-    else {
-    fetch(`${config.baseUrl}/cards/likes/${cardId.id}`, {
+    .then(getResponseData)
+};
+
+
+export const dislikeServerRequest = (cardId) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'DELETE',
     headers: config.headers})
-    .then(res => res.json())
-    .then((res) => {
-        likeNumber.textContent = res.likes.length;
-    })
-    };
+    .then(getResponseData)
 };
 
 export const submitUserAvatar = (src, page) => {

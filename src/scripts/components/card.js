@@ -1,4 +1,4 @@
-function createCard (cardData, openImgHandler, userId, deleteFromServerCallback, likeServerCallBack) {
+function createCard (cardData, openImgHandler, userId, deleteFromServerCallback, dislikeServeCallback, likeServerCallback) {
     const template = document.querySelector('#card-template').content;
     const cardElement = template.cloneNode(true);
     const removeButton = cardElement.querySelector('.card__delete-button');
@@ -23,7 +23,7 @@ function createCard (cardData, openImgHandler, userId, deleteFromServerCallback,
         deleteCard(removeButton, deleteFromServerCallback);
     });
     likeButton.addEventListener('click', function () {
-        likeCard(likeButton, likeServerCallBack);
+        likeCard(likeButton, dislikeServeCallback, likeServerCallback);
     });
     photoImg.addEventListener('click', function () {
         openImgHandler (cardData.link, cardData.name);
@@ -33,15 +33,34 @@ function createCard (cardData, openImgHandler, userId, deleteFromServerCallback,
 
 function deleteCard (element, deleteFromServerCallback) {
     const removeItem = element.closest('.places__item');
-    deleteFromServerCallback(removeItem.id);
-    removeItem.remove();
+    deleteFromServerCallback(removeItem.id)
+    .catch(err => console.log(`Ошибка: ${err}`))
+        .finally(() => {
+removeItem.remove();
+}); 
+    
 };
 
-function likeCard (element, likeServerCallBack, cardDom) {
+function likeCard (element, dislike, like) {
     const likeElement = element.closest('.card__like-button');
     const cardElement = element.closest('.places__item');
-    likeServerCallBack(cardElement);
-    likeElement.classList.toggle('card__like-button_is-active');
+    const likeNumber = cardElement.querySelector('.card__like_namber');
+    if (!likeElement.classList.contains('card__like-button_is-active')) {
+        like(cardElement.id)
+        .then((data) => {
+            likeNumber.textContent = data.likes.length;
+            likeElement.classList.add('card__like-button_is-active');
+        })
+        .catch(err => console.log(`Ошибка: ${err}`))
+    }
+    else {
+        dislike(cardElement.id)
+        .then((data) => {
+            likeNumber.textContent = data.likes.length;
+            likeElement.classList.remove('card__like-button_is-active');
+        })
+        .catch(err => console.log(`Ошибка: ${err}`))
+    }
 };
 
 function currentUserLiked (array, id) {
