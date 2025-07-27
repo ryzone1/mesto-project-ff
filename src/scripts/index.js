@@ -2,7 +2,7 @@ import '../pages/index.css';
 import {createCard} from './components/card.js';
 import {openModal, closeModal} from './components/modal.js'; 
 import {enableValidation, clearValidation} from './components/validation.js'
-import {GetUserDataFromServer, getCardDataFromServer, editUserProfile, addCardOnServer, userId, deleteCardFromServer, likeToggleIntegratedWithServer, submitUserAvatar} from './components/api.js';
+import {getUserDataFromServer, getCardDataFromServer, editUserProfile, addCardOnServer, userId, deleteCardFromServer, likeToggleIntegratedWithServer, submitUserAvatar} from './components/api.js';
 
 const placesList = document.querySelector('.places__list');
 
@@ -46,7 +46,18 @@ inputErrorClass: 'popup__input_error',
 errorClass: 'popup__input_text_error_active'
 };
 
-GetUserDataFromServer(userDataConfig);
+const renderProfileData = () => {
+    getUserDataFromServer()
+    .then((data) => {
+        userDataConfig.user_Name.textContent = data.name;
+        userDataConfig.user_About.textContent = data.about;
+        userDataConfig.user_Avatar.style.backgroundImage = `url(${data.avatar})`;
+    })
+    .catch(err => console.log(`Ошибка: ${err}`))
+};
+renderProfileData()
+
+
 getCardDataFromServer(placesList, createCard, openImgModal, userId, deleteCardFromServer, likeToggleIntegratedWithServer);
 
 function openImgModal (src, name) {
@@ -112,10 +123,10 @@ formEditProfile.addEventListener('submit', submitEditProfileForm);
 
 function manualAddCard (evt) {
     evt.preventDefault();
-    const CardName = cardInputName.value;
-    const CardLink = cardInputSrc.value;
+    const cardName = cardInputName.value;
+    const cardLink = cardInputSrc.value;
     savingProgressCaption()
-    addCardOnServer(CardName, CardLink);
+    addCardOnServer(cardName, cardLink);
     closeModal(popUpNewCard);
     cardInputForm.reset();
     clearValidation(cardInputForm, ValidationConfig);

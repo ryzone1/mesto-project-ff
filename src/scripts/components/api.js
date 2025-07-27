@@ -10,43 +10,33 @@ headers: {
 }
 };
 
+function getResponseData (res) {
+    if (!res.ok) {
+        return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
+}
+
 export const deleteCardFromServer = (cardId) => {
     fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
 })
+    .then(getResponseData)
 };
 
-export const GetUserDataFromServer = (domElements) => {
+export const getUserDataFromServer = () => {
 return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers
 })
-    .then(res => {
-    if (res.ok) {
-        return res.json();
-    }
-    Promise.reject(res.status);
-    })
-    .then ((res) => {
-        domElements.user_Name.textContent = res.name;
-        domElements.user_About.textContent = res.about;
-        domElements.user_Avatar.style.backgroundImage = `url(${res.avatar})`;
-    } )
-    .catch((err) => {
-    console.log(err);
-})
+    .then(getResponseData)
 };
 
 export const getCardDataFromServer = (container, createCard, openImgModal, userId, deleteCardFromServer) => {
     return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers
 })
-    .then(res => {
-    if (res.ok) {
-        return res.json();
-    }
-    Promise.reject(res.status);
-    })
+    .then(getResponseData)
     .then((res) => {
         res.forEach(card => {
             const cardRendered = createCard(card, openImgModal, userId, deleteCardFromServer, likeToggleIntegratedWithServer);
@@ -54,7 +44,7 @@ export const getCardDataFromServer = (container, createCard, openImgModal, userI
         });
     })
         .catch((err) => {
-    console.log(err);
+            console.log(err);
 })
 };
 
