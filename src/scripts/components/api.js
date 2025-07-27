@@ -43,9 +43,6 @@ export const getCardDataFromServer = (container, createCard, openImgModal, userI
             container.appendChild(cardRendered);
         });
     })
-        .catch((err) => {
-            console.log(err);
-})
 };
 
 export const editUserProfile = (name, about) => {
@@ -60,13 +57,14 @@ export const editUserProfile = (name, about) => {
 };
 
 export const addCardOnServer = (cardName, cardLink) => {
-    fetch(`${config.baseUrl}/cards`, {
+    return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify({
         name: cardName,
         link: cardLink
     })})
+    .then(getResponseData)
 };
 
 export const likeToggleIntegratedWithServer = (cardId) => {

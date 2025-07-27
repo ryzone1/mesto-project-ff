@@ -116,11 +116,9 @@ function submitEditProfileForm(evt) {
     evt.preventDefault();
     savingProgressCaption();
     editUserProfile(inputConfig.profileNameInput.value, inputConfig.profileDescriptionInput.value)
-        .then((data) => {
-            renderProfileData();
-        })
         .catch(err => console.log(`Ошибка: ${err}`))
         .finally(() => {
+            renderProfileData();
             closeModal(popUpEdit);
 }); 
 };
@@ -129,13 +127,17 @@ formEditProfile.addEventListener('submit', submitEditProfileForm);
 
 function manualAddCard (evt) {
     evt.preventDefault();
-    const cardName = cardInputName.value;
-    const cardLink = cardInputSrc.value;
-    savingProgressCaption()
-    addCardOnServer(cardName, cardLink);
-    closeModal(popUpNewCard);
-    cardInputForm.reset();
-    clearValidation(cardInputForm, ValidationConfig);
+    savingProgressCaption();
+    addCardOnServer(cardInputName.value, cardInputSrc.value)
+    .then ((data) => {
+        placesList.prepend(createCard(data, openImgModal, userId, deleteCardFromServer, likeToggleIntegratedWithServer))
+    })
+    .catch(err => console.log(`Ошибка: ${err}`))
+    .finally(() => {
+        closeModal(popUpNewCard);
+        cardInputForm.reset();
+        clearValidation(cardInputForm, ValidationConfig);
+}); 
 };
 
 cardInputForm.addEventListener('submit', manualAddCard);
