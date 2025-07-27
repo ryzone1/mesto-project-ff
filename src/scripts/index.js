@@ -3,6 +3,7 @@ import {createCard} from './components/card.js';
 import {openModal, closeModal} from './components/modal.js'; 
 import {enableValidation, clearValidation} from './components/validation.js'
 import {getUserDataFromServer, getCardDataFromServer, editUserProfile, addCardOnServer, userId, deleteCardFromServer, likeToggleIntegratedWithServer, submitUserAvatar} from './components/api.js';
+import { data } from 'autoprefixer';
 
 const placesList = document.querySelector('.places__list');
 
@@ -55,7 +56,7 @@ const renderProfileData = () => {
     })
     .catch(err => console.log(`Ошибка: ${err}`))
 };
-renderProfileData()
+renderProfileData();
 
 
 getCardDataFromServer(placesList, createCard, openImgModal, userId, deleteCardFromServer, likeToggleIntegratedWithServer);
@@ -110,13 +111,18 @@ function fillInputFields (page) {
     jobInput.value = description.textContent;
 };
 
+
 function submitEditProfileForm(evt) {
     evt.preventDefault();
-    const nameValue = inputConfig.profileNameInput.value;
-    const jobValue = inputConfig.profileDescriptionInput.value;
-    savingProgressCaption()
-    editUserProfile(nameValue, jobValue, userDataConfig);
-    closeModal(popUpEdit);
+    savingProgressCaption();
+    editUserProfile(inputConfig.profileNameInput.value, inputConfig.profileDescriptionInput.value)
+        .then((data) => {
+            renderProfileData();
+        })
+        .catch(err => console.log(`Ошибка: ${err}`))
+        .finally(() => {
+            closeModal(popUpEdit);
+}); 
 };
 
 formEditProfile.addEventListener('submit', submitEditProfileForm);
