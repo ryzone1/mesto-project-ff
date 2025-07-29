@@ -33,10 +33,10 @@ function createCard (cardData, openImgHandler, userId, deleteFromServerCallback,
 function deleteCard (element, deleteFromServerCallback) {
     const removeItem = element.closest('.places__item');
     deleteFromServerCallback(removeItem.id)
+    .then(
+        removeItem.remove()
+    )
     .catch(err => console.log(`Ошибка: ${err}`))
-        .finally(() => {
-        removeItem.remove();
-}); 
 };
 
 function likeCard (element, dislike, like) {

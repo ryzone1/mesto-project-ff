@@ -64,20 +64,13 @@ const ValidationConfig = {
 
 // Функции
 
-const renderProfileData = () => {
-    getUserDataFromServer()
-        .then((data) => {
-            userDataConfig.user_Name.textContent = data.name;
-            userDataConfig.user_About.textContent = data.about;
-            userDataConfig.user_Avatar.style.backgroundImage = `url(${data.avatar})`;
-            userDataConfig.user_Id = data._id;
-        })
-        .catch(err => console.log(`Ошибка: ${err}`))
-};
-
-const renderCards = () => {
+const renderAppData = () => {
     Promise.all([getCardDataFromServer(), getUserDataFromServer()])
         .then((data) => {
+            userDataConfig.user_Name.textContent = data[1].name;
+            userDataConfig.user_About.textContent = data[1].about;
+            userDataConfig.user_Avatar.style.backgroundImage = `url(${data[1].avatar})`;
+            userDataConfig.user_Id = data[1]._id;
             data[0].forEach(card => {
                 const cardRendered = createCard(card, openImgModal, data[1]._id, deleteCardFromServer, dislikeServerRequest, likeServerRequest);
                 placesList.appendChild(cardRendered);
@@ -104,12 +97,12 @@ function addAnimatedPopUp(page) {
 };
 
 function savingProgressCaption(element) {
-    let button = element.querySelector('.popup__button');
+    const button = element.querySelector('.popup__button');
     button.textContent = 'Сохранение...'
 };
 
 function savedCaption(element) {
-    let button = element.querySelector('.popup__button');
+    const button = element.querySelector('.popup__button');
     button.textContent = 'Сохранить'
 };
 
@@ -119,10 +112,12 @@ function submitAvatar(evt) {
     updateUserAvatar(avatarInput)
     .then((data) => {
         userDataConfig.user_Avatar.style.backgroundImage = `url(${inputConfig.profileDescriptionInput.value})`;
+        closeModal(avatarEditPopUp);
+        clearValidation(evt.target, ValidationConfig);
+        evt.target.reset();
     })
         .catch(err => console.log(`Ошибка: ${err}`))
         .finally(() => {
-            closeModal(avatarEditPopUp);
             savedCaption(evt.target);
         });
 }
@@ -139,11 +134,13 @@ function submitEditProfileForm(evt) {
     evt.preventDefault();
     savingProgressCaption(evt.target);
     editUserProfile(inputConfig.profileNameInput.value, inputConfig.profileDescriptionInput.value)
+    .then(() =>{
+        evt.target.reset();
+        closeModal(popUpEdit);
+        clearValidation(evt.target, ValidationConfig);
+    })
     .catch(err => console.log(`Ошибка: ${err}`))
     .finally(() => {
-        evt.target.reset;
-        clearValidation(evt.target);
-        closeModal(popUpEdit);
         savedCaption(evt.target);
     });
 };
@@ -153,14 +150,14 @@ function manualAddCard(evt) {
     savingProgressCaption(evt.target);
     addCardOnServer(cardInputName.value, cardInputSrc.value)
         .then((data) => {
-            placesList.prepend(createCard(data, openImgModal, userDataConfig.user_Id, deleteCardFromServer, dislikeServerRequest, likeServerRequest))
+            placesList.prepend(createCard(data, openImgModal, userDataConfig.user_Id, deleteCardFromServer, dislikeServerRequest, likeServerRequest));
+            cardInputForm.reset();
+            closeModal(popUpNewCard);
+            clearValidation(evt.target, ValidationConfig);
         })
         .catch(err => console.log(`Ошибка: ${err}`))
         .finally(() => {
-            closeModal(popUpNewCard);
             savedCaption(evt.target);
-            cardInputForm.reset();
-            clearValidation(cardInputForm, ValidationConfig);
         });
 };
 
@@ -188,9 +185,7 @@ cardInputForm.addEventListener('submit', manualAddCard);
 
 //вызовы 
 
-renderCards();
-
-renderProfileData();
+renderAppData();
 
 addAnimatedPopUp(allPage);
 
