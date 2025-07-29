@@ -70,7 +70,6 @@ function clearValidation (form, config) {
         hideInputError(form, inputElement, config);
         buttonElement.classList.add(config.inactiveButtonClass);
     });
-    toggleButtonState(formInput, buttonElement,config)
 }
 
 export {enableValidation, clearValidation, toggleButtonState}
