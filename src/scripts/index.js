@@ -124,8 +124,6 @@ function submitAvatar(evt) {
         .finally(() => {
             closeModal(avatarEditPopUp);
             savedCaption(evt.target);
-            evt.target.reset;
-            clearValidation(evt.target);
         });
 }
 
