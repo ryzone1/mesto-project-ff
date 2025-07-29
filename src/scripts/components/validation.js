@@ -41,6 +41,7 @@ const errorElement = formElement.querySelector(`.${inputElement.id}_error`);
 inputElement.classList.remove(config.inputErrorClass);
 errorElement.classList.remove(config.errorClass);
 errorElement.textContent = '';
+inputElement.setCustomValidity('');
 };
 
 function setEventListeners(formElement, config) {
@@ -68,7 +69,8 @@ function clearValidation (form, config) {
     formInput.forEach((inputElement) => {
         hideInputError(form, inputElement, config);
         buttonElement.classList.add(config.inactiveButtonClass);
-    })
+    });
+    toggleButtonState(formInput, buttonElement,config)
 }
 
-export {enableValidation, clearValidation}
+export {enableValidation, clearValidation, toggleButtonState}

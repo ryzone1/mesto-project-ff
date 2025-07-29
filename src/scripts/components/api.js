@@ -1,6 +1,5 @@
 const cohortId = 'wff-cohort-42';
 const token = '97973811-dc29-406f-aaec-08ad8ee54de0';
-export const userId = '7e7d247302222c81991c19dd';
 
 const config = {
 baseUrl: `https://nomoreparties.co/v1/${cohortId}`,
@@ -32,17 +31,11 @@ return fetch(`${config.baseUrl}/users/me`, {
     .then(getResponseData)
 };
 
-export const getCardDataFromServer = (container, createCard, openImgModal, userId, deleteCardFromServer, dislikeCallback, likeCallback) => {
+export const getCardDataFromServer = () => {
     return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers
 })
     .then(getResponseData)
-    .then((res) => {
-        res.forEach(card => {
-            const cardRendered = createCard(card, openImgModal, userId, deleteCardFromServer, dislikeCallback, likeCallback);
-            container.appendChild(cardRendered);
-        });
-    })
 };
 
 export const editUserProfile = (name, about) => {
